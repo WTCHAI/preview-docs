@@ -169,6 +169,31 @@ The ZK BIOWN system pipeline consists of six stages:
 5. Hash with Poseidon to create enrollment commitment
 6. Verify using ZK circuit (threshold ≥ 102/128)
 
+### A-2. B2B Integration Architecture
+
+ZK BIOWN operates as a biometric authentication provider for product companies. The system involves three independent parties with distinct roles and data responsibilities:
+
+**TABLE I-B. SYSTEM ACTORS**
+
+| Actor | Role | Data Held |
+|-------|------|-----------|
+| Product (Company) | Authentication consumer | Product partial key, user mappings |
+| ZTIZEN Service | Authentication provider | ZTIZEN partial key, Poseidon commitments |
+| User | Authentication subject | User key (client-side only), raw biometrics (browser only) |
+
+The verification flow follows four steps:
+
+1. **Authentication Request:** Product service initiates verification request to ZTIZEN
+2. **User Proof Generation:** User captures biometric in browser and generates ZK proof
+3. **Proof Verification:** ZTIZEN verifies proof against stored Poseidon commitments
+4. **Status Lookup:** Product receives boolean authentication result (pass/fail)
+
+**Privacy Properties:**
+- Raw biometrics never leave the user's browser
+- ZK proof reveals only the authentication result, not biometric data
+- Companies receive only a boolean verification status
+- Rolling nonce prevents replay attacks
+
 ### B. Three-Party Key Distribution
 
 The system distributes encryption keys across three independent parties:
@@ -618,7 +643,7 @@ Future work includes liveness detection, WebGPU acceleration for proof generatio
 ## APPENDIX: COPY-PASTE GUIDE FOR IEEE WORD TEMPLATE
 
 ### Document Statistics
-- **Tables:** 21 tables (including II-0 traditional risks, II-A academic, II-B commercial, II-C trust model, XIII-B regulatory)
+- **Tables:** 22 tables (including II-0 traditional risks, I-B system actors, II-A academic, II-B commercial, II-C trust model, XIII-B regulatory)
 - **Equations:** 6 equations
 - **References:** 21 citations
 - **Dataset:** 12 subjects, 60 samples, 1,770 pairs
@@ -630,7 +655,7 @@ Future work includes liveness detection, WebGPU acceleration for proof generatio
 |---------|---------|--------|
 | I. Introduction | Problem + contributions | - |
 | II. Related Work | Background (5 subsections) | II-A |
-| III. Proposed Method | Architecture (4 subsections) | I, II |
+| III. Proposed Method | Architecture (5 subsections) | I, I-B, II |
 | IV. Experimental Results | Validation (11 subsections) | III-XV-B |
 | IV.J | Academic system comparison | XII |
 | IV.K | Commercial provider comparison | XIII, XIII-B |
