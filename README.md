@@ -1,137 +1,90 @@
 # ZK-BIOWN: A Trustless Biometric Authentication Architecture Using Cancelable Biometrics and Zero-Knowledge Proofs
 
-## IEEE Conference Paper - Version 2 (System Architecture Paper)
+## IEEE Conference Format
 
 ---
 
-## TITLE
-
-**ZK-BIOWN: A Trustless Biometric Authentication Architecture Using Cancelable Biometrics and Zero-Knowledge Proofs**
-
----
-
-## AUTHORS
-
-**Pittaya Sutheerwut¹, Kittipol Horapong²**
-
-¹² Department of Computer Engineering, Faculty of Engineering, Kasetsart University, Bangkok, Thailand
-
-Email: pittaya.sut@ku.th¹, kittipol.ho@ku.ac.th²
+**Paper Title:**
+# ZK-BIOWN: A Trustless Biometric Authentication Architecture Using Cancelable Biometrics and Zero-Knowledge Proofs
 
 ---
 
-## ABSTRACT
+**Authors:**
 
-Centralized biometric storage creates significant security risks, as biometric data cannot be altered once compromised. This paper presents ZK-BIOWN, a **system architecture** for trustless biometric authentication where biometric templates are **stored nowhere**—neither on user devices, servers, nor blockchain. Rather than proposing novel algorithms, our contribution is architectural: we demonstrate how to compose existing cryptographic primitives into a practical system. The architecture combines: (1) BioHashing [7] for cancelable template generation with mathematically proven security properties, (2) a three-party key distribution mechanism ensuring no single entity can reconstruct templates, and (3) zero-knowledge proofs enabling verification without data exposure. Similar to how the Signal Protocol uses existing AES/Curve25519 but contributes the Double Ratchet architecture, ZK-BIOWN uses existing BioHashing but contributes a novel "Store Nowhere" trust distribution architecture. Browser-based implementation achieves ~15s proof generation with ~4s verification, enabling practical deployment without specialized hardware.
+| Author 1 | Author 2 |
+|----------|----------|
+| Pittaya Sutheerwut | Kittipol Horapong |
+| Department of Computer Engineering | Department of Computer Engineering |
+| Faculty of Engineering | Faculty of Engineering |
+| Kasetsart University | Kasetsart University |
+| Bangkok, Thailand | Bangkok, Thailand |
+| pittaya.sut@ku.th | kittipol.ho@ku.ac.th |
 
 ---
 
-## KEYWORDS
+## Abstract
 
-System Architecture, Zero-Knowledge Proofs, Cancelable Biometrics, Privacy-Preserving Authentication, Store Nowhere
+Centralized biometric storage creates significant security risks since biometric data cannot be changed once compromised. This paper proposes ZK-BIOWN, a trustless biometric authentication system using cancelable biometrics and zero-knowledge proofs. The biometric template is stored nowhere while maintaining valid verification. The architecture 3combines BioHashing for cancelable biometric template generation with mathematically proven security properties, a three-party key distribution mechanism ensuring no single entity can reconstruct templates, and zero-knowledge proofs enabling verification without data exposure. We evaluate the system using the FaceScrub dataset with 466 subjects and 7,771 genuine pairs. Rather than proposing novel cryptographic primitives, our contribution lies in the system architecture that integrates existing building blocks into a practical browser-based solution requiring no specialized hardware.
 
 ---
 
-## I. INTRODUCTION
+## Keywords
 
-Biometric authentication systems are increasingly prevalent across multiple domains, including smartphone unlocking, access control, and financial transaction verification. However, centralized biometric storage creates a fundamental security paradox: users must trust service providers to securely store data that, unlike passwords, cannot be changed once compromised.
+System Architecture, Zero-Knowledge Proofs, Cancelable Biometrics, Privacy-Preserving Authentication, BioHashing
 
-Traditional biometric systems suffer from several critical limitations:
+---
 
-1. **Single Point of Failure:** Database breaches expose immutable biometric data permanently
-2. **Lack of User Control:** Users cannot revoke or change their biometric credentials
-3. **Linkability:** The same biometric template used across services enables cross-service tracking
-4. **Regulatory Liability:** GDPR, BIPA, and other regulations impose strict requirements on biometric data handling
+## I. Introduction
 
-This paper presents ZK-BIOWN, a trustless biometric authentication architecture that addresses these challenges by combining established cancelable biometrics techniques with zero-knowledge proofs. Rather than proposing novel cryptographic primitives, our contribution lies in the **system architecture** that integrates:
+Biometric authentication is widely used in services requiring proof of identity. However, biometric templates are often stored in centralized databases, creating a significant single point of failure where users must trust service providers to securely store their data. Unlike passwords, biometrics represent a new form of digital key that cannot be changed once compromised.
 
-- **BioHashing** [7] for cancelable template generation with proven security properties
-- **Three-party key distribution** for distributed trust
-- **Zero-knowledge proofs** for privacy-preserving verification
-- **Browser-based implementation** requiring no specialized hardware
+Traditional biometric systems suffer from several critical limitations. First, they create a single point of failure where database breaches expose immutable biometric data permanently. Second, users lack control over their own biometric information. Third, organizations bear substantial liability for protecting sensitive biometric databases as systems scale.
 
-### Paper Type Clarification
+This paper proposes ZK-BIOWN, a trustless biometric authentication architecture that addresses these challenges by combining established cancelable biometrics techniques with zero-knowledge proofs. We evaluate the system using the FaceScrub dataset [24] with 466 subjects and 2,632 quality-filtered images, generating 7,771 genuine pairs and 10,000 impostor pairs for statistical validation. Rather than proposing novel cryptographic primitives, our contribution lies in the system architecture that integrates:
 
-**This is a system architecture paper**, similar in nature to:
-- **Signal Protocol** [25]: Uses existing AES/Curve25519, contributes Double Ratchet architecture
-- **OAuth 2.0** [26]: Uses existing HTTP/TLS, contributes authorization delegation architecture
-- **Tor** [27]: Uses existing AES/RSA, contributes onion routing architecture
+- BioHashing [7] for cancelable template generation with proven security properties
+- Three-party key distribution for distributed trust, addressing the key management vulnerability in traditional cancelable biometrics
+- Zero-knowledge proofs for privacy-preserving verification without data exposure
+- Browser-based implementation requiring no specialized hardware
 
-We do NOT claim novel cancelable biometric algorithms. We adopt BioHashing [7] and cite its mathematically proven properties.
-
-### Contributions
+### A. Contributions
 
 The main contributions of this paper are:
 
-1. **"Store Nowhere" Architecture:** A system design where biometric templates exist nowhere persistently—computed on-the-fly, never stored
-2. **Three-Party Key Distribution:** A trust model where no single entity (service, platform, or user) can reconstruct templates alone
-3. **ZK-Native Integration:** Practical browser-based zero-knowledge proof generation using Poseidon Hash (~300 constraints vs SHA-256's ~25,000)
-4. **Liability Elimination Model:** Architecture that inherently satisfies GDPR/BIPA data minimization—cannot leak what is not stored
+1. **Store Nowhere Architecture:** A system design where biometric templates exist nowhere persistently, computed on-the-fly, never stored
+2. **Three-Party Key Distribution:** A trust model where no single entity can reconstruct templates alone
+3. **ZK-Native Integration:** Practical browser-based zero-knowledge proof generation using Poseidon Hash
+4. **Liability Elimination Model:** Architecture that inherently satisfies GDPR/BIPA data minimization
 
-**What We CITE (Not Our Contribution):**
-- BioHashing algorithm and its security proofs [7][8]
-- Distance preservation (Johnson-Lindenstrauss) [20]
-- Zero-knowledge proof systems (UltraHonk) [23]
+### B. Paper Organization
 
-**What We CONTRIBUTE (Novel):**
-- Three-party key distribution architecture
-- "Store Nowhere" system design
-- Browser-native ZK implementation
+The remainder of this paper is organized as follows. Section II presents related work. Section III describes the system architecture. Section IV provides security analysis. Section V presents experimental evaluation. Section VI describes implementation details. Section VII compares with existing systems. Section VIII discusses practical considerations. Section IX concludes the paper.
 
 ---
 
-## II. RELATED WORK
+## II. Related Work
 
 ### A. Cancelable Biometrics
 
-Cancelable biometrics [1] transforms biometric data using non-invertible functions T(B, K), where B is biometric data and K is a user-specific key. The transformation produces templates that can be revoked by changing K.
+Patel et al. [1] surveyed cancelable biometric techniques, identifying key requirements: revocability, unlinkability, and non-invertibility. BioHashing [7] achieves these properties through random orthogonal projections seeded by user tokens, with mathematical proofs provided in [8][22]. However, BioHashing alone does not address key management. If the token is compromised alongside the template, the original biometric may be recoverable [1].
 
-**BioHashing** [7] is a well-established cancelable biometric technique introduced by Teoh et al. The algorithm:
+Fuzzy vault [9] and fuzzy commitment [10] schemes provide error tolerance but require helper data storage, creating additional attack surfaces. Pillai et al. [3] applied random projections to iris recognition with sparse representations, demonstrating robustness but not addressing zero-knowledge verification.
 
-1. Generates a Gaussian random matrix R where R[i][j] ~ N(0, 1/√m)
-2. Orthogonalizes R using Gram-Schmidt process
-3. Projects biometric vector: v = R × x
-4. Quantizes to produce template
+### B. Zero-Knowledge Biometric Authentication
 
-BioHashing provides mathematically proven properties [7][22]:
-- **Cancelability:** New template is statistically independent when key changes
-- **Unlinkability:** Templates from different keys cannot be correlated
-- **Non-Invertibility:** Original biometric cannot be recovered from template
+Groth16 [2] enabled practical ZK-SNARKs with constant-size proofs, making biometric ZKP systems feasible. ZABA [13] combined Pedersen commitments with cancelable biometrics for anonymous authentication, but lacks open-source implementation and browser support. Wu and Yu [14] proposed privacy-preserving biometric authentication using ZKPs but did not address distributed key management.
 
-We adopt BioHashing as our cancelable biometric foundation, inheriting these proven security properties.
+Worldcoin [19] deploys Groth16 for iris-based proof of personhood at scale, but requires proprietary Orb hardware for enrollment, limiting accessibility. Keyless [15] uses secure multi-party computation rather than true zero-knowledge proofs, distributing trust across MPC servers rather than eliminating it.
 
-### B. Zero-Knowledge Proofs
+### C. Gap Analysis
 
-Zero-knowledge proofs [2] enable proving statements without revealing underlying information. A ZKP system consists of:
-- **Prover:** Generates proof that statement is true
-- **Verifier:** Validates proof without learning private inputs
+Existing approaches share common limitations: (1) specialized hardware requirements [19], (2) centralized key storage vulnerable to single-point compromise [7][15], (3) closed-source implementations [13][15], or (4) MPC-based trust models rather than true zero-knowledge [15].
 
-Recent ZK systems relevant to biometrics include:
-- **Groth16** [2]: Constant-size proofs, requires trusted setup
-- **PLONK/UltraHonk** [23]: Universal setup, efficient verification
-- **Noir** [4]: Domain-specific language for ZK circuit development
-
-### C. Existing ZKP-Biometric Systems
-
-| System | Approach | Limitations |
-|--------|----------|-------------|
-| ZABA [13] | Pedersen commitment + cancelable biometrics | Not open source, no browser support |
-| Worldcoin [19] | Groth16 zkSNARK for iris | Requires proprietary Orb hardware |
-| Keyless [15] | Secure MPC (not true ZK) | Centralized trust in MPC servers |
-
-### D. Gap Analysis
-
-Existing systems either:
-1. Require specialized hardware (Worldcoin)
-2. Are not truly zero-knowledge (Keyless uses MPC)
-3. Lack open implementation (ZABA)
-4. Don't provide user-controlled revocation
-
-ZK-BIOWN addresses these gaps through an open, browser-based architecture with user-controlled cancelability.
+ZK-BIOWN addresses these gaps through three-party key distribution eliminating single points of failure, browser-based implementation requiring no specialized hardware, and open-source availability for security audit.
 
 ---
 
-## III. SYSTEM ARCHITECTURE
+## III. System Architecture
 
 ### A. Design Principles
 
@@ -144,308 +97,180 @@ ZK-BIOWN is designed around four principles:
 
 ### B. System Overview
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         ZK-BIOWN ARCHITECTURE                        │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                      │
-│  ┌──────────┐    ┌──────────────┐    ┌──────────────┐               │
-│  │  User    │    │   Product    │    │   ZTIZEN     │               │
-│  │  Device  │    │   Server     │    │   Platform   │               │
-│  └────┬─────┘    └──────┬───────┘    └──────┬───────┘               │
-│       │                 │                    │                       │
-│       │    ┌────────────┴────────────┐      │                       │
-│       │    │   Three-Party Key       │      │                       │
-│       │    │   Distribution          │      │                       │
-│       │    └────────────┬────────────┘      │                       │
-│       │                 │                    │                       │
-│       ▼                 ▼                    ▼                       │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │              CLIENT-SIDE PROCESSING (Browser)                │    │
-│  ├─────────────────────────────────────────────────────────────┤    │
-│  │  1. Capture Face → Extract Embedding (128D/512D)            │    │
-│  │  2. Combine Keys → K = SHA256(Kp || Kz || Ku)               │    │
-│  │  3. Generate BioHashing Matrix from K                        │    │
-│  │  4. Project & Quantize → Template                            │    │
-│  │  5. Hash with Poseidon → Commitment                          │    │
-│  │  6. Generate ZK Proof                                        │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-│                              │                                       │
-│                              ▼                                       │
-│  ┌─────────────────────────────────────────────────────────────┐    │
-│  │              VERIFICATION (Server or On-Chain)               │    │
-│  ├─────────────────────────────────────────────────────────────┤    │
-│  │  • Receives: ZK Proof + Public Commitment                    │    │
-│  │  • Verifies: Proof validity (no biometric data revealed)     │    │
-│  │  • Result: Accept/Reject                                     │    │
-│  └─────────────────────────────────────────────────────────────┘    │
-│                                                                      │
-└─────────────────────────────────────────────────────────────────────┘
-```
+The architecture consists of three parties: User Device, Product Server, and ZTIZEN Platform. All sensitive processing occurs client-side in the browser:
+
+1. Capture Face and Extract Embedding (128D/512D)
+2. Combine Keys: K = SHA256(Kp || Kz || Ku)
+3. Generate BioHashing Matrix from K
+4. Project and Quantize to Template
+5. Hash with Poseidon to Commitment
+6. Generate ZK Proof
+
+Verification accepts only ZK Proof and Public Commitment, verifying proof validity without biometric data revelation.
 
 ### C. Three-Party Key Distribution
 
 The system distributes key material across three independent parties:
 
-**TABLE I. THREE-PARTY KEY DISTRIBUTION**
+**TABLE I: THREE-PARTY KEY DISTRIBUTION**
 
 | Party | Holds | Purpose |
 |-------|-------|---------|
-| **Product** | Product Key (Kp) | Service-specific binding |
-| **ZTIZEN** | Platform Key (Kz) | Platform security |
-| **User** | User Key (Ku) | User-controlled revocation |
+| Product | Product Key (Kp) | Service-specific binding |
+| ZTIZEN | Platform Key (Kz) | Platform security |
+| User | User Key (Ku) | User-controlled revocation |
 
 The composite key is computed as:
 
-```
-K_composite = SHA256(Kp || Kz || Ku || version)     (1)
-```
+K_composite = SHA256(Kp || Kz || Ku || version)    (1)
 
-**Security Properties:**
+Security Properties:
 - **Compromise Resistance:** Compromising any single party reveals nothing
-- **Revocability:** User changes Ku → completely new template
-- **Service Isolation:** Different Kp per service → unlinkable templates
+- **Revocability:** User changes Ku resulting in completely new template
+- **Service Isolation:** Different Kp per service yields unlinkable templates
 
 ### D. BioHashing Integration
 
 We adopt the BioHashing algorithm [7] for cancelable template generation:
 
-**Step 1: Matrix Generation**
-Using K_composite as PRNG seed, generate Gaussian random matrix:
+**Step 1: Matrix Generation** - Using K_composite as PRNG seed, generate Gaussian random matrix where R[i][j] follows (1/sqrt(m)) times N(0, 1).
 
-```
-R[i][j] ~ (1/√m) × N(0, 1)     (2)
-```
+**Step 2: Gram-Schmidt Orthogonalization** - Orthogonalize R to ensure distance preservation per the Johnson-Lindenstrauss lemma [6].
 
-**Step 2: Gram-Schmidt Orthogonalization**
-Orthogonalize R to ensure distance preservation (Johnson-Lindenstrauss lemma [6]):
+**Step 3: Projection** - Project biometric embedding x through orthogonal matrix: v = R_orthogonal times x.
 
-```
-(1 - ε)||u - v||² ≤ ||Ru - Rv||² ≤ (1 + ε)||u - v||²     (3)
-```
+**Step 4: Binarization** - Convert continuous projections to binary codes using threshold tau = 0 [8]: b_i = 1 if v_i > 0, else 0.
 
-**Step 3: Projection**
-Project biometric embedding x through orthogonal matrix:
-
-```
-v = R_orthogonal × x     (4)
-```
-
-**Step 4: Binarization (Standard BioHashing)**
-Convert continuous projections to binary codes using threshold τ = 0 [8, Section III-C]:
-
-```
-b_i = 1 if v_i > 0, else 0     (5)
-```
-
-This produces a 128-bit binary template with maximum entropy (approximately 50% ones, 50% zeros). This is the standard BioHashing binarization as defined in Teoh et al. [8]—no custom quantization required.
+This produces a 128-bit binary template with maximum entropy.
 
 ### E. ZK Circuit Design
 
 The ZK circuit proves knowledge of a biometric template matching a stored commitment without revealing the template.
 
 **Circuit Inputs:**
-- **Private:** Template T[128], User Key Ku
-- **Public:** Enrollment Commitment C, Product Key Kp, Platform Key Kz
+- Private: Template T[128], User Key Ku
+- Public: Enrollment Commitment C, Product Key Kp, Platform Key Kz
 
 **Circuit Logic:**
-```
 1. Recompute composite key: K = SHA256(Kp || Kz || Ku)
 2. Hash template: H = Poseidon(T)
 3. Assert: H == C
-4. Assert: MatchCount(T_enrollment, T_verification) ≥ threshold
-```
+4. Assert: MatchCount(T_enrollment, T_verification) >= threshold
 
-**Why Poseidon Hash:**
-- ~300 constraints vs SHA-256's ~25,000
-- Native field arithmetic (no bit decomposition)
-- Proven security in ZK context [5]
+**Why Poseidon Hash:** Approximately 300 constraints vs SHA-256's 25,000, native field arithmetic, proven security in ZK context [5].
 
 ### F. Enrollment and Verification Protocols
 
 **Enrollment Protocol:**
-```
-1. User captures face → embedding x
+1. User captures face yielding embedding x
 2. Client receives Kp (product), Kz (platform)
 3. User provides Ku (user key)
 4. Client computes: K = SHA256(Kp || Kz || Ku)
 5. Client generates: template T = BioHash(x, K)
 6. Client computes: commitment C = Poseidon(T)
 7. Server stores: only C (no template, no keys)
-```
 
 **Verification Protocol:**
-```
-1. User captures face → embedding x'
+1. User captures face yielding embedding x'
 2. Client retrieves Kp, Kz; user provides Ku
 3. Client computes: T' = BioHash(x', K)
-4. Client generates: ZK proof π that T' matches stored C
-5. Server verifies: π (learns nothing about T' or x')
+4. Client generates: ZK proof pi that T' matches stored C
+5. Server verifies: pi (learns nothing about T' or x')
 6. Result: Accept if proof valid, Reject otherwise
-```
 
 ---
 
-## IV. SECURITY ANALYSIS
+## IV. Security Analysis
 
 ### A. Inherited Security Properties
 
 By adopting BioHashing [7], ZK-BIOWN inherits mathematically proven properties:
 
-**Theorem 1 (Cancelability) [7]:** When key K changes to K', the resulting templates T and T' are statistically independent:
+**Theorem 1 (Cancelability) [7]:** When key K changes to K', the resulting templates T and T' are statistically independent.
 
-```
-I(T; T') = 0     (6)
-```
-
-This is proven in [7] through the properties of orthogonal random projections with independent seeds.
-
-**Theorem 2 (Non-Invertibility) [7]:** Given template T and key K, recovering original biometric x is computationally infeasible due to the dimensionality reduction and quantization.
+**Theorem 2 (Non-Invertibility) [7]:** Given template T and key K, recovering original biometric x is computationally infeasible due to dimensionality reduction and quantization.
 
 **Theorem 3 (Unlinkability) [7]:** Templates generated with different keys cannot be linked to the same individual.
 
 ### B. ZK-BIOWN Additional Properties
 
-**Property 1 (Zero-Knowledge Privacy):** The verifier learns nothing beyond the validity of the authentication claim. This follows from the zero-knowledge property of the underlying proof system (UltraHonk [23]).
+**Property 1 (Zero-Knowledge Privacy):** The verifier learns nothing beyond the validity of the authentication claim, following from the zero-knowledge property of UltraHonk [23].
 
 **Property 2 (Three-Party Security):** Compromising fewer than all three key holders reveals no information about the biometric template.
 
-*Proof sketch:* The composite key K = SHA256(Kp || Kz || Ku) requires all three inputs. SHA256's preimage resistance ensures that knowing any two keys provides no information about K without the third.
-
 ### C. Attack Resistance
 
-**TABLE II. ATTACK RESISTANCE ANALYSIS**
+**TABLE II: ATTACK RESISTANCE ANALYSIS**
 
 | Attack | Traditional | BioHashing | ZK-BIOWN |
 |--------|-------------|------------|----------|
-| Database breach | Full compromise | Template only (revocable) | Commitment only (no template) |
+| Database breach | Full compromise | Template only | Commitment only |
 | Replay attack | Vulnerable | Vulnerable | Proof has unique challenge |
-| Cross-service linking | Possible | Prevented (different keys) | Prevented + ZK privacy |
-| Template inversion | Risk | Proven infeasible [7] | N/A (no template stored) |
-| Man-in-middle | Server sees biometric | Server sees template | Server sees nothing (ZK) |
+| Cross-service linking | Possible | Prevented | Prevented + ZK privacy |
+| Template inversion | Risk | Proven infeasible | N/A (no template stored) |
+| Man-in-middle | Server sees biometric | Server sees template | Server sees nothing |
 
 ---
 
-## V. EXPERIMENTAL EVALUATION
+## V. Experimental Evaluation
 
 ### A. Dataset Selection and Preparation
 
 We evaluate our implementation using the FaceScrub dataset [24], a real-world face recognition benchmark comprising 530 subjects with approximately 107,000 face images collected from internet sources under uncontrolled conditions.
 
-**TABLE IX. QUALITY FILTERING CRITERIA (RETINAFACE)**
+**TABLE III: QUALITY FILTERING CRITERIA**
 
 | Filter | Threshold | Purpose |
 |--------|-----------|---------|
-| Detection Confidence | ≥95% | High-quality face detection |
+| Detection Confidence | >= 95% | High-quality face detection |
 | Face Area Ratio | 10-90% | Proper face framing |
-| Blur Score (Laplacian) | ≥100 | Sharp, focused images |
+| Blur Score | >= 100 | Sharp, focused images |
 | Face Count | Exactly 1 | No group photos |
-| Yaw Angle | ≤±20° | Frontal pose only |
-| Pitch Angle | ≤±25° | No extreme head tilt |
+| Yaw Angle | <= 20 degrees | Frontal pose only |
+| Pitch Angle | <= 25 degrees | No extreme head tilt |
 
-**TABLE X. DATASET AFTER QUALITY FILTERING**
+**TABLE IV: DATASET AFTER QUALITY FILTERING**
 
 | Metric | Original | After Filtering | Retention |
 |--------|----------|-----------------|-----------|
 | Subjects | 530 | 466 | 88% |
-| Images | ~107,000 | 2,632 | 2.5% |
-| Images/Subject | ~200 | ~5.6 | - |
+| Images | 107,000 | 2,632 | 2.5% |
 | Genuine Pairs | - | 7,771 | - |
-| Impostor Pairs | - | 10,000 (sampled) | - |
+| Impostor Pairs | - | 10,000 | - |
 
-The strict filtering criteria ensure authentication-grade quality: frontal poses, sharp focus, single faces, and high detection confidence. This reflects real-world biometric enrollment conditions where quality control is applied.
-
-### B. Face Embedding Extraction
-
-We evaluate across four face embedding models to demonstrate architecture independence:
-
-**TABLE XI. FACE EMBEDDING MODELS**
-
-| Model | Dimensions | Execution Environment | Library |
-|-------|------------|----------------------|---------|
-| face-api.js | 128D | Browser (WASM) | face-api.js |
-| FaceNet | 128D | Python | DeepFace |
-| FaceNet512 | 512D | Python | DeepFace |
-| ArcFace | 512D | Python | DeepFace |
-
-### C. BioHashing Implementation
-
-Our BioHashing implementation follows Teoh et al. [7][8] exactly:
-
-1. **Matrix Generation:** R[i][j] ~ (1/√m) × N(0,1), seed from composite key
-2. **Orthogonalization:** Gram-Schmidt process → orthonormal basis
-3. **Projection:** v = R_orthogonal × embedding
-4. **Binarization:** b_i = 1 if v_i > 0, else 0 (threshold τ = 0)
-5. **Matching:** Hamming distance / template length
-
-### D. Four-Scenario Validation Framework
+### B. Four-Scenario Validation Framework
 
 We validate the system using the standard four-scenario framework for cancelable biometrics:
 
-**TABLE XII. FOUR-SCENARIO VALIDATION FRAMEWORK**
+**TABLE V: FOUR-SCENARIO VALIDATION FRAMEWORK**
 
-| Scenario | Description | What It Tests | Expected Result |
-|----------|-------------|---------------|-----------------|
-| **A** | Same Person + Same Key | **Verifiability** - System recognizes legitimate user | High match rate |
-| **B** | Different Person + Same Key | **Uniqueness** - System rejects impostors | Low match rate |
-| **C** | Same Person + Different Key | **Cancelability** - Old template useless after key change | No correlation |
-| **D** | Different Person + Different Key | **Unlinkability** - Cannot link users across services | No correlation |
+| Scenario | Description | Tests | Expected |
+|----------|-------------|-------|----------|
+| A | Same Person + Same Key | Verifiability | High match |
+| B | Different Person + Same Key | Uniqueness | Low match |
+| C | Same Person + Different Key | Cancelability | No correlation |
+| D | Different Person + Different Key | Unlinkability | No correlation |
 
-**TABLE XIII. BIOHASHING RESULTS BY MODEL (128-BIT OUTPUT)**
+**TABLE VI: BIOHASHING RESULTS (128-BIT OUTPUT)**
 
-| Model | Scenario A (μ) | Scenario B (μ) | Gap | Scenario C (μ) | Scenario D (μ) |
-|-------|----------------|----------------|-----|----------------|----------------|
+| Model | Scenario A | Scenario B | Gap | Scenario C | Scenario D |
+|-------|------------|------------|-----|------------|------------|
 | face-api.js | 91.4% | 83.2% | 8.2% | ~50% | ~50% |
 | FaceNet | 73.0% | 52.5% | 20.5% | ~50% | ~50% |
 | FaceNet512 | 72.3% | 51.4% | 20.9% | ~50% | ~50% |
 | ArcFace | 69.4% | 51.3% | 18.1% | ~50% | ~50% |
 
-### E. Similarity Gap Analysis (Uniqueness Proof)
+### C. Statistical Validity
 
-The **similarity gap** between same-person and different-person distributions demonstrates the system can distinguish legitimate users from impostors:
-
-```
-FaceNet512 Example:
-
-Same Person (A):      |--------[65%]=====[72.3%]=====[80%]--------|
-                                            μ_A = 72.3%
-
-Different Person (B): |--[45%]=====[51.4%]=====[58%]--------------|
-                                     μ_B = 51.4%
-
-Threshold (τ):        |-------------------[62%]-------------------|
-                                            ↑
-                                     Clean separation
-
-Gap = μ_A - μ_B = 72.3% - 51.4% = 20.9%
-```
-
-**Key Observations:**
-1. **Verifiability (A):** Same-person matches remain significantly above threshold
-2. **Uniqueness (B):** Different-person matches center at ~50% (random for independent binary templates)
-3. **Cancelability (C):** When key changes, old template becomes useless—new template has NO correlation to old one
-4. **Unlinkability (D):** Different users with different keys cannot be linked—templates are completely uncorrelated
-
-### F. Statistical Validity
-
-Our evaluation exceeds the statistical requirements of the original BioHashing papers:
-- **Subjects:** 466 vs. 100-150 in [7][8]
-- **Genuine pairs:** 5,436-7,771 (statistically significant)
-- **Impostor pairs:** 10,000 (sufficient for FAR estimation)
-
-### G. Commitment Storage Clarification ("Store Nowhere")
-
-**Important:** The server stores only the Poseidon hash commitment C = H(T), not the biometric template T itself. Due to Poseidon's preimage resistance, recovering T from C is computationally infeasible. Unlike template storage, commitment storage reveals no information about underlying biometric features, facial characteristics, or identity. The commitment serves purely as a verification anchor—proving the user's fresh biometric matches their enrollment—without enabling biometric reconstruction or cross-matching.
-
-This distinguishes ZK-BIOWN from systems that store protected templates: we store only a cryptographic commitment with zero biometric information leakage.
+Our evaluation exceeds the statistical requirements of the original BioHashing papers: 466 subjects vs. 100-150 in [7][8], 5,436-7,771 genuine pairs (statistically significant), and 10,000 impostor pairs (sufficient for FAR estimation).
 
 ---
 
-## VI. IMPLEMENTATION
+## VI. Implementation
 
 ### A. Technology Stack
 
-**TABLE III. IMPLEMENTATION COMPONENTS**
+**TABLE VII: IMPLEMENTATION COMPONENTS**
 
 | Component | Technology | Purpose |
 |-----------|------------|---------|
@@ -458,138 +283,114 @@ This distinguishes ZK-BIOWN from systems that store protected templates: we stor
 
 ### B. Performance Measurements
 
-**TABLE IV. MEASURED PERFORMANCE (Browser, M1 MacBook)**
+**TABLE VIII: MEASURED PERFORMANCE (Browser, M1 MacBook)**
 
 | Operation | Time | Notes |
 |-----------|------|-------|
-| Face Detection + Embedding | ~200ms | face-api.js WASM |
-| BioHashing (Project + Binarize) | <15ms | Matrix multiplication + τ=0 threshold |
-| Poseidon Hashing | ~50ms | 128 field elements |
-| **Proof Generation** | **~15s** | Client-side, WASM |
-| **Proof Verification** | **~4s** | Cryptographic verification |
+| Face Detection + Embedding | 200ms | face-api.js WASM |
+| BioHashing | <15ms | Matrix multiplication |
+| Poseidon Hashing | 50ms | 128 field elements |
+| Proof Generation | 15s | Client-side, WASM |
+| Proof Verification | 4s | Cryptographic verification |
 
-**TABLE V. PROOF CHARACTERISTICS**
+**TABLE IX: PROOF CHARACTERISTICS**
 
 | Metric | Value |
 |--------|-------|
 | Proof Size | 15.88 KB |
 | Public Inputs | 257 fields |
 | Circuit Constraints | ~45,000 |
-| On-chain Gas (Ethereum) | ~400,000 (~$0.02 at 10 gwei) |
+| On-chain Gas | ~400,000 |
 
 ### C. Limitations
 
-1. **Proof Generation Time:** ~15s is acceptable for high-security scenarios but may impact UX for frequent authentication
-2. **No Liveness Detection:** Current implementation does not include anti-spoofing; this is planned for future work
+1. **Proof Generation Time:** 15s is acceptable for high-security scenarios but may impact UX for frequent authentication
+2. **No Liveness Detection:** Current implementation does not include anti-spoofing
 3. **Browser Dependency:** Requires modern browser with WebAssembly support
 
 ---
 
-## VII. COMPARISON WITH EXISTING SYSTEMS
+## VII. Comparison with Existing Systems
 
 ### A. Academic Systems
 
-**TABLE VI. COMPARISON WITH ACADEMIC APPROACHES**
+**TABLE X: COMPARISON WITH ACADEMIC APPROACHES**
 
-| Feature | BioHashing [7] | Fuzzy Vault [9] | ZABA [13] | **ZK-BIOWN** |
-|---------|----------------|-----------------|-----------|--------------|
-| Cancelability | ✓ (proven) | ✓ | ✓ | ✓ (inherited) |
-| No Helper Data | ✗ | ✗ | ✓ | ✓ |
-| ZK Privacy | ✗ | ✗ | ✓ | ✓ |
-| Three-Party Trust | ✗ | ✗ | ✗ | ✓ |
-| Open Source | N/A | N/A | ✗ | ✓ |
-| Browser-Based | N/A | N/A | ✗ | ✓ |
+| Feature | BioHashing | Fuzzy Vault | ZABA | ZK-BIOWN |
+|---------|------------|-------------|------|----------|
+| Cancelability | Yes | Yes | Yes | Yes |
+| No Helper Data | No | No | Yes | Yes |
+| ZK Privacy | No | No | Yes | Yes |
+| Three-Party Trust | No | No | No | Yes |
+| Open Source | N/A | N/A | No | Yes |
+| Browser-Based | N/A | N/A | No | Yes |
 
 ### B. Commercial Systems
 
-**TABLE VII. COMPARISON WITH COMMERCIAL SOLUTIONS**
+**TABLE XI: COMPARISON WITH COMMERCIAL SOLUTIONS**
 
-| Feature | Keyless [15] | Worldcoin [19] | **ZK-BIOWN** |
-|---------|--------------|----------------|--------------|
-| Technology | sMPC | Groth16 zkSNARK | UltraHonk |
-| True Zero-Knowledge | ✗ (MPC shares) | ✓ | ✓ |
-| User-Controlled Revocation | ? | ✗ (Foundation) | ✓ |
-| Special Hardware | ✗ | ✓ (Orb) | ✗ |
-| Open Source | ✗ | Partial | ✓ |
-| Browser-Native | ✓ | ✗ | ✓ |
-
-### C. Trust Model Comparison
-
-**TABLE VIII. TRUST MODEL ANALYSIS**
-
-| System | Trust Assumption | Single Point of Failure |
-|--------|------------------|-------------------------|
-| Traditional | Server holds biometric | ✓ Database breach |
-| Keyless | sMPC servers honest | ✓ Collusion |
-| Worldcoin | Orb hardware, Foundation | ✓ Hardware compromise |
-| **ZK-BIOWN** | Any 2 of 3 parties honest | ✗ Distributed |
+| Feature | Keyless | Worldcoin | ZK-BIOWN |
+|---------|---------|-----------|----------|
+| Technology | sMPC | Groth16 | UltraHonk |
+| True Zero-Knowledge | No | Yes | Yes |
+| User Revocation | Unknown | No | Yes |
+| Special Hardware | No | Yes (Orb) | No |
+| Open Source | No | Partial | Yes |
+| Browser-Native | Yes | No | Yes |
 
 ---
 
-## VIII. DISCUSSION
+## VIII. Discussion
 
-### A. System Architecture Contribution (Not Algorithm)
+### A. System Architecture Contribution
 
-**This is a system engineering paper**, not an algorithm improvement paper. The distinction is critical:
-
-**TABLE XIV. PAPER TYPE COMPARISON**
-
-| Aspect | Algorithm Paper | System Architecture Paper (Ours) |
-|--------|-----------------|----------------------------------|
-| **Contribution** | New biometric transformation | New trust distribution design |
-| **Metrics Focus** | FAR/FRR improvements | Security properties, data flow |
-| **Comparison** | vs. other algorithms | vs. other architectures |
-| **Novelty** | Better discrimination | "Store Nowhere" design |
-| **Similar Works** | BioHashing [7], Fuzzy Vault [9] | Signal Protocol, OAuth 2.0, Tor |
+This is a system engineering paper, not an algorithm improvement paper. The distinction is critical:
 
 **What We Use (Cite):**
-- BioHashing algorithm [7][8] — mathematically proven cancelability
-- Poseidon Hash [5] — ZK-friendly hash function
-- UltraHonk [23] — zero-knowledge proof system
+- BioHashing algorithm [7][8]
+- Poseidon Hash [5]
+- UltraHonk [23]
 
 **What We Contribute (Novel):**
 - Three-party key distribution architecture
-- "Store Nowhere" system design
+- Store Nowhere system design
 - Browser-native ZK biometric verification
 
 ### B. Practical Considerations
 
 **Deployment Scenarios:**
-- **High-Security:** Financial transactions where ~15s proof time is acceptable
-- **Enterprise:** Access control with moderate security requirements
-- **Consumer:** May require optimization for faster proof generation
+- High-Security: Financial transactions where 15s proof time is acceptable
+- Enterprise: Access control with moderate security requirements
+- Consumer: May require optimization for faster proof generation
 
 **Regulatory Compliance:**
-The "zero storage" architecture provides inherent compliance advantages:
-- GDPR Article 25: Data minimization (no biometric stored)
-- BIPA: No retention = no consent required for retention
-- CCPA: Cannot sell/share data that doesn't exist
+The zero storage architecture provides inherent compliance advantages with GDPR Article 25 (data minimization), BIPA (no retention), and CCPA (cannot share data that does not exist).
 
 ### C. Limitations and Future Work
 
-1. **Liveness Detection:** Integration with passive/active liveness required
-2. **Performance:** WebGPU acceleration could reduce proof time significantly
-3. **Multi-Biometric:** Fusion of face + fingerprint for higher accuracy
-4. **Large-Scale Evaluation:** Validation on standard benchmarks (LFW, etc.)
+1. Liveness detection integration required
+2. WebGPU acceleration could reduce proof time
+3. Multi-biometric fusion for higher accuracy
+4. Large-scale evaluation on standard benchmarks
 
 ---
 
-## IX. CONCLUSION
+## IX. Conclusion
 
 This paper presented ZK-BIOWN, a trustless biometric authentication architecture that combines BioHashing for cancelable template generation with zero-knowledge proofs for privacy-preserving verification.
 
-**Key Contributions:**
+Key Contributions:
 1. Three-party key distribution eliminating single points of failure
 2. Integration of proven BioHashing with ZK circuits
 3. Complete browser-based implementation requiring no specialized hardware
 4. Open-source reference implementation
 
-**Inherited Properties (from BioHashing [7]):**
+Inherited Properties (from BioHashing [7]):
 - Cancelability: Templates revocable via key change
 - Unlinkability: Cross-service tracking prevented
 - Non-invertibility: Original biometric cannot be recovered
 
-**Added Properties (from ZK-BIOWN architecture):**
+Added Properties (from ZK-BIOWN architecture):
 - Zero-knowledge privacy: Verifier learns nothing
 - Distributed trust: No single party compromise
 - On-chain verifiability: Smart contract integration possible
@@ -598,111 +399,63 @@ The architecture demonstrates that practical privacy-preserving biometric authen
 
 ---
 
-## REFERENCES
+## References
 
-[1] V. M. Patel, N. K. Ratha, and R. Chellappa, "Cancelable biometrics: A review," IEEE Signal Processing Magazine, vol. 32, no. 5, pp. 54-65, 2015.
+[1] V. M. Patel, N. K. Ratha, and R. Chellappa, "Cancelable biometrics: A review," *IEEE Signal Processing Magazine*, vol. 32, no. 5, pp. 54-65, 2015.
 
-[2] J. Groth, "On the size of pairing-based non-interactive arguments," in EUROCRYPT 2016, Springer, pp. 305-326, 2016.
+[2] J. Groth, "On the size of pairing-based non-interactive arguments," in *EUROCRYPT 2016*, Springer, pp. 305-326, 2016.
 
-[3] J. K. Pillai, V. M. Patel, R. Chellappa, and N. K. Ratha, "Secure and robust iris recognition using random projections and sparse representations," IEEE Trans. Pattern Anal. Mach. Intell., vol. 33, no. 9, pp. 1877-1893, 2011.
+[3] J. K. Pillai, V. M. Patel, R. Chellappa, and N. K. Ratha, "Secure and robust iris recognition using random projections and sparse representations," *IEEE Trans. Pattern Anal. Mach. Intell.*, vol. 33, no. 9, pp. 1877-1893, 2011.
 
 [4] Aztec Protocol, "Noir: A Domain Specific Language for SNARK Proving Systems," https://noir-lang.org/, 2024.
 
-[5] L. Grassi et al., "Poseidon: A new hash function for zero-knowledge proof systems," in USENIX Security, 2021.
+[5] L. Grassi *et al.*, "Poseidon: A new hash function for zero-knowledge proof systems," in *USENIX Security*, 2021.
 
-[6] D. Achlioptas, "Database-friendly random projections," J. Computer and System Sciences, vol. 66, no. 4, pp. 671-687, 2003.
+[6] D. Achlioptas, "Database-friendly random projections," *J. Computer and System Sciences*, vol. 66, no. 4, pp. 671-687, 2003.
 
-[7] A. B. J. Teoh, D. C. L. Ngo, and A. Goh, "BioHashing: Two factor authentication featuring fingerprint data and tokenised random number," Pattern Recognition, vol. 37, no. 11, pp. 2245-2255, 2004.
+[7] A. B. J. Teoh, D. C. L. Ngo, and A. Goh, "BioHashing: Two factor authentication featuring fingerprint data and tokenised random number," *Pattern Recognition*, vol. 37, no. 11, pp. 2245-2255, 2004.
 
-[8] A. B. J. Teoh, A. Goh, and D. C. L. Ngo, "Random Multispace Quantization as an Analytic Mechanism for BioHashing of Biometric and Random Identity Inputs," IEEE Trans. Pattern Anal. Mach. Intell., vol. 28, no. 12, pp. 1892-1901, 2006.
+[8] A. B. J. Teoh, A. Goh, and D. C. L. Ngo, "Random Multispace Quantization as an Analytic Mechanism for BioHashing of Biometric and Random Identity Inputs," *IEEE Trans. Pattern Anal. Mach. Intell.*, vol. 28, no. 12, pp. 1892-1901, 2006.
 
-[9] A. Juels and M. Sudan, "A fuzzy vault scheme," Designs, Codes and Cryptography, vol. 38, no. 2, pp. 237-257, 2006.
+[9] A. Juels and M. Sudan, "A fuzzy vault scheme," *Designs, Codes and Cryptography*, vol. 38, no. 2, pp. 237-257, 2006.
 
-[10] A. Juels and M. Wattenberg, "A fuzzy commitment scheme," in ACM CCS, pp. 28-36, 1999.
+[10] A. Juels and M. Wattenberg, "A fuzzy commitment scheme," in *ACM CCS*, pp. 28-36, 1999.
 
-[11] Y. Dodis, L. Reyzin, and A. Smith, "Fuzzy extractors: How to generate strong keys from biometrics and other noisy data," SIAM J. Computing, vol. 38, no. 1, pp. 97-139, 2008.
+[11] Y. Dodis, L. Reyzin, and A. Smith, "Fuzzy extractors: How to generate strong keys from biometrics and other noisy data," *SIAM J. Computing*, vol. 38, no. 1, pp. 97-139, 2008.
 
 [12] ISO/IEC 24745:2022, "Information security, cybersecurity and privacy protection — Biometric information protection," International Organization for Standardization, 2022.
 
-[13] E. Hanzlik and K. Kluczniak, "Zero-knowledge anonymous biometric authentication," in IEEE WIFS, pp. 1-6, 2019.
+[13] E. Hanzlik and K. Kluczniak, "Zero-knowledge anonymous biometric authentication," in *IEEE WIFS*, pp. 1-6, 2019.
 
-[14] S. Wu and Z. Yu, "Privacy-preserving biometric authentication using zero-knowledge proofs," in ACM ASIACCS, 2022.
+[14] S. Wu and Z. Yu, "Privacy-preserving biometric authentication using zero-knowledge proofs," in *ACM ASIACCS*, 2022.
 
 [15] Keyless Technologies (Ping Identity), "Zero-Knowledge Biometrics," https://keyless.io/technology/zero-knowledge-biometrics, 2024.
 
-[16] F. Schroff, D. Kalenichenko, and J. Philbin, "FaceNet: A unified embedding for face recognition and clustering," in IEEE CVPR, pp. 815-823, 2015.
+[16] F. Schroff, D. Kalenichenko, and J. Philbin, "FaceNet: A unified embedding for face recognition and clustering," in *IEEE CVPR*, pp. 815-823, 2015.
 
-[17] J. Deng, J. Guo, N. Xue, and S. Zafeiriou, "ArcFace: Additive angular margin loss for deep face recognition," in IEEE CVPR, pp. 4690-4699, 2019.
+[17] J. Deng, J. Guo, N. Xue, and S. Zafeiriou, "ArcFace: Additive angular margin loss for deep face recognition," in *IEEE CVPR*, pp. 4690-4699, 2019.
 
 [18] World Foundation, "World Whitepaper: Technical Implementation," https://whitepaper.world.org/technical-implementation, 2024.
 
 [19] World Foundation, "Worldcoin: Proof of Personhood," https://worldcoin.org/, 2024.
 
-[20] W. Johnson and J. Lindenstrauss, "Extensions of Lipschitz mappings into a Hilbert space," Contemporary Mathematics, vol. 26, pp. 189-206, 1984.
+[20] W. Johnson and J. Lindenstrauss, "Extensions of Lipschitz mappings into a Hilbert space," *Contemporary Mathematics*, vol. 26, pp. 189-206, 1984.
 
-[21] Y. Liu et al., "ZABA: A ZKP-based anonymous biometric authentication scheme for the E-health systems," PLOS ONE, vol. 20, no. 6, 2025.
+[21] Y. Liu *et al.*, "ZABA: A ZKP-based anonymous biometric authentication scheme for the E-health systems," *PLOS ONE*, vol. 20, no. 6, 2025.
 
-[22] A. B. J. Teoh and C. T. Yuang, "Cancelable biometrics realization with multispace random projections," IEEE Trans. Syst., Man, Cybern. B, vol. 37, no. 5, pp. 1096-1106, 2007.
+[22] A. B. J. Teoh and C. T. Yuang, "Cancelable biometrics realization with multispace random projections," *IEEE Trans. Syst., Man, Cybern. B*, vol. 37, no. 5, pp. 1096-1106, 2007.
 
 [23] Aztec Protocol, "PLONK: Permutations over Lagrange-bases for Oecumenical Noninteractive arguments of Knowledge," https://eprint.iacr.org/2019/953, 2019.
 
-[24] H. Ng and S. Winkler, "A data-driven approach to cleaning large face datasets," in IEEE International Conference on Image Processing (ICIP), pp. 343-347, 2014.
-
-[25] M. Marlinspike and T. Perrin, "The Double Ratchet Algorithm," Signal Foundation, 2016.
-
-[26] D. Hardt, "The OAuth 2.0 Authorization Framework," RFC 6749, IETF, 2012.
-
-[27] R. Dingledine, N. Mathewson, and P. Syverson, "Tor: The Second-Generation Onion Router," in USENIX Security, 2004.
+[24] H. Ng and S. Winkler, "A data-driven approach to cleaning large face datasets," in *IEEE International Conference on Image Processing (ICIP)*, pp. 343-347, 2014.
 
 ---
 
-## APPENDIX: CONTRIBUTION MATRIX
-
-### What We CITE (Use Existing Work)
-
-| Component | Source | Our Role |
-|-----------|--------|----------|
-| BioHashing algorithm | Teoh et al. [7][8] | Implementation |
-| Distance preservation proof | Johnson-Lindenstrauss [20] | Citation |
-| Cancelability proof | Teoh et al. [8, Section IV-B] | Citation |
-| Gram-Schmidt orthogonalization | Teoh et al. [7, Section 3] | Citation |
-| Poseidon Hash | Grassi et al. [5] | Integration |
-| ZK Proof System | UltraHonk [23] | Integration |
-
-### What We CONTRIBUTE (Novel)
-
-| Contribution | Evidence |
-|--------------|----------|
-| **"Store Nowhere" Architecture** | System design (Section III) |
-| **Three-Party Key Distribution** | Protocol specification (Section III.C) |
-| **ZK-Native Integration** | Circuit design (Section III.E) |
-| **Browser-Based Implementation** | Working proof-of-concept (Section VI) |
-| **Liability Elimination Model** | Regulatory analysis (Section VIII.B) |
-
-### For Reviewers
-
-**This is a system architecture paper**, not an algorithm paper. Similar to how:
-- Signal Protocol uses existing AES but contributes Double Ratchet
-- OAuth 2.0 uses existing HTTP but contributes authorization delegation
-- Tor uses existing RSA but contributes onion routing
-
-ZK-BIOWN uses existing BioHashing but contributes:
-- Three-party trust distribution
-- "Store Nowhere" design pattern
-- Browser-native ZK biometric verification
-
-Security properties (cancelability, unlinkability, non-invertibility) are **inherited from BioHashing [7][8]**, not experimentally validated as novel claims.
-
----
-
-## Document Statistics
+## Document Information
 
 - **Paper Type:** System Architecture Paper
-- **Tables:** 14 (I-VIII architecture + IX-XIV evaluation)
-- **Figures:** 1 (architecture diagram)
-- **References:** 27
-- **Word Count:** ~4,500 (excluding appendix)
-- **Target Venue:** Security/Privacy conference or workshop
-- **Core Contribution:** "Store Nowhere" biometric authentication architecture
-- **Evaluation:** FaceScrub dataset (466 subjects, 7,771 genuine pairs), four-scenario validation
-
+- **Format:** IEEE Conference
+- **Tables:** 11 (I-XI)
+- **References:** 24
+- **Word Count:** ~4,000
+- **Core Contribution:** Store Nowhere biometric authentication architecture
